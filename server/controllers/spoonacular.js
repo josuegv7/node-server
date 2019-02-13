@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const apiKey = "dS6FP3ZAR1msh1hzkPHYQEJxLoinp1LioKIjsnQOM1tx25D89L";
+const apiKey = "";
 
 
 const getRecipes = ()=>{
@@ -11,7 +11,7 @@ const getRecipes = ()=>{
             }
         )
           .then((res) => {
-            console.log("Response:", JSON.stringify(res.data, undefined,2))
+            console.log("Response:", JSON.stringify(res.data, undefined,2));
           })
           .catch((e) => {
             console.log("Error");
