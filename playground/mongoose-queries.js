@@ -1,5 +1,4 @@
 const {ObjectID} = require('mongodb');
-
 const { mongoose } = require('./../server/db/mongoose');
 const {Food} = require('./../server/models/food');
 

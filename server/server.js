@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const {ObjectId} = require('mongodb');
 const bcrypt = require('bcryptjs');
+const cors = require('cors');
 
 const {authenticate} = require('./middlewear/authenticate');
 
@@ -11,6 +12,8 @@ var {Food} = require('./models/food');
 var {User} = require('./models/user');
 
 var app = express(); 
+
+app.use(cors());
 
 app.use(bodyParser.json());
 
@@ -138,6 +141,9 @@ app.delete('/user/logout', authenticate, (req, res) =>{
     });
 });
 
-app.listen(3000, () =>{
-    console.log("Started on Port 3000");
+
+// Server Setup:
+
+app.listen(3090, () =>{
+    console.log("Started on Port 3090");
 });
