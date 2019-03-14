@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const apiKey = "dS6FP3ZAR1msh1hzkPHYQEJxLoinp1LioKIjsnQOM1tx25D89L";
+const apiKey = "";
 
 
 const getRecipes = ()=>{
