@@ -13,25 +13,35 @@ var {User} = require('./models/user');
 
 var app = express(); 
 
-app.use(cors());
+// Set the JWT to x-auth with this the front end can access the token in the request.
+const corsOptions = {
+    exposedHeaders: ['x-auth'],
+};
 
-app.use(bodyParser.json());
+app.use(cors(corsOptions));
+
+// app.use(cors());
+
+app.use(bodyParser.json({type: '*/*'}));
 
 
-app.post('/food', authenticate, (req,res) => {
-    var food = new Food({
-        name: req.body.name,
-        type: req.body.type,
-        _creator: req.user._id
-    });
-    food.save().then((doc)=>{
-        res.send(doc);
-    }, (e)=>{
-        res.status(400).send(e);
-        });
+app.post("/stockpile/food", authenticate, (req, res) => {
+  var food = new Food({
+    name: req.body.name,
+    type: req.body.type,
+    _creator: req.user._id
+  });
+  food.save().then(
+    doc => {
+      res.send(doc);
+    },
+    e => {
+      res.status(400).send(e);
+    }
+  );
 });
 
-app.get('/food', authenticate, (req,res)=>{
+app.get('/stockpile/food', authenticate, (req,res)=>{
     Food.find({
         _creator: req.user._id
     }).then((foods)=>{
@@ -43,61 +53,71 @@ app.get('/food', authenticate, (req,res)=>{
 
 
 // Get request with a query string in the URL
-app.get('/food/:id', authenticate, (req, res)=>{
-    var id = req.params.id;
+app.get("/stockpile/food/:id", authenticate, (req, res) => {
+  var id = req.params.id;
 
-    if (!ObjectId.isValid(id)) {
-        return res.status(404).send();
-    }
+  if (!ObjectId.isValid(id)) {
+    return res.status(404).send();
+  }
 
-    Food.findOne({
-        _id: id,
-        _creator: req.user._id
-    }).then((food)=>{
-        if(food){
-        console.log("Found Food with ID: ", food)
-        res.send({food});
-        } else{
-            res.status(404).send();
-            console.log("404: no Food Found")
-        }
-    }).catch((e)=>res.status(400).send());
+  Food.findOne({
+    _id: id,
+    _creator: req.user._id
+  })
+    .then(food => {
+      if (food) {
+        console.log("Found Food with ID: ", food);
+        res.send({ food });
+      } else {
+        res.status(404).send();
+        console.log("404: no Food Found");
+      }
+    })
+    .catch(e => res.status(400).send());
 });
 
 // Route to  delete a food item:
 
-app.delete('food/:id', authenticate, (req, res)=>{
-    var id = req.params.id;
+app.delete("stockpile/food/:id", authenticate, (req, res) => {
+  var id = req.params.id;
 
-    if (!ObjectID.isValid(id)){
-        return res.status(404).send();
-    }
-    Food.findOneAndRemove({
-        _id: id,
-        _creator: req.user._id
-    }).then((food)=>{
-        if(food){
-            console.log("The food item was deleted");
-            res.send({food});
-        }else{
-            res.status(404).send();
-            console.log("404: the food was not found");
-        }
-    }).catch((e)=>res.status(400).send());
+  if (!ObjectID.isValid(id)) {
+    return res.status(404).send();
+  }
+  Food.findOneAndRemove({
+    _id: id,
+    _creator: req.user._id
+  })
+    .then(food => {
+      if (food) {
+        console.log("The food item was deleted");
+        res.send({ food });
+      } else {
+        res.status(404).send();
+        console.log("404: the food was not found");
+      }
+    })
+    .catch(e => res.status(400).send());
 });
 
-app.patch('/food/:id', authenticate, (res, req) =>{
-    var id = res.params.id;
-    var body = _.pick(req.body, [name, type, frig, count]);
+app.patch("stockpile/food/:id", authenticate, (res, req) => {
+  var id = res.params.id;
+  var body = _.pick(req.body, [name, type, frig, count]);
 
-    Food.findOneAndUpdate({_id: id, _creator: req.user._id}, { $set: body }, {new: true} ).then((food)=>{
-        if(!food){
-            console.log("Updating your information");
-            res.status(404).send();
-        }else{
-            res.send({food});
-        } 
-    }). catch((e)=>res.status(400).send());
+  Food.findOneAndUpdate(
+    { _id: id, _creator: req.user._id },
+    { $set: body },
+    { new: true }
+  )
+    .then(food => {
+      if (!food) {
+        console.log("Updating your information");
+        res.status(404).send();
+      } else {
+        res.send({ food });
+      }
+    })
+    .catch(e => res.status(400).send());
 });
 
 // HTTP Call to POST /User
@@ -105,11 +125,11 @@ app.patch('/food/:id', authenticate, (res, req) =>{
 app.post('/user', (req, res)=> {
     var body = _.pick(req.body, ['name', 'email', 'password']);
     var user = new User(body);
-    console.log(user);
     user.save().then(() => {
         return user.generateAuthToken();
     }).then((token) =>{
         res.header('x-auth', token).send(user);
+        console.log(user);
     }).catch((e)=>{
         res.status(400).send(e);
     });
