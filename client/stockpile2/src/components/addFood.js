@@ -18,9 +18,9 @@ class AddFood extends Component {
     onFoodFormSubmit = foodFormProps =>{
         this.props.addFood(foodFormProps)
     }
-    refreshfoodlist() {
-        this.props.fetchFoodList();
-    }
+    // refreshfoodlist() {
+    //     this.props.fetchFoodList();
+    // }
     render() {
         const { handleSubmit } = this.props;
         return (
@@ -38,16 +38,16 @@ class AddFood extends Component {
               />
               <Field
                 label="Frig: "
-                name="Frig"
+                name="frig"
                 component={renderField}
               />
               <Field
                 label="Count: "
-                name="Count"
+                name="count"
                 component={renderField}
               />
               <div>
-                <button type="submit" onClick={this.refreshfoodlist()}>
+                <button type="submit">
                   ADD
                 </button>
                 <button>Cancel</button>

@@ -1,4 +1,4 @@
-import { AUTH_USER, AUTH_ERROR, FETCH_FOODLIST, ADD_NEW_FOOD, ERROR_FOOD_LIST } from "./types";
+import { AUTH_USER, AUTH_ERROR, FETCH_FOODLIST, ADD_NEW_FOOD, ERROR_FOOD_LIST, ERROR_ADDING_FOOD } from "./types";
 import axios from "axios";
 
 export const signup = (fromProps, callback) => async dispatch => {
@@ -28,7 +28,6 @@ export const signin = (fromProps, callback) => async dispatch => {
     }
 };
 
-
 export const signout = () => {
     localStorage.removeItem('token');
     return {
@@ -37,32 +36,30 @@ export const signout = () => {
     };
 };
 
-// Action to get the food list:
-export const fetchFoodList = () => dispatch => {
-    axios
-        .get("http://localhost:3090/stockpile/food", {
-            headers: {
-                auth: localStorage.getItem("token")
-            }
-        })
-        .then(response =>
-            dispatch({
-                type: FETCH_FOODLIST,
-                payload: response
-            })
-        );
-};
+// ========================================================== //
 
 // Add a food to the DB:
-export const addFood = (foodFormProps, callback) => async dispatch =>{
-    try{
+export const addFood = (foodFormProps, callback) => async dispatch => {
+    try {
         const response = await axios.post("http://localhost:3090/stockpile/food", foodFormProps);
-        dispatch({type: ADD_NEW_FOOD, payload:response});
+        dispatch({ type: ADD_NEW_FOOD, payload: response });
         callback();
-    } catch(e){
-        dispatch({ type: ERROR_FOOD_LIST, payload: "Error loadinng your food list" });
+    } catch (e) {
+        dispatch({type: ERROR_ADDING_FOOD, payload: "Error adding food to your Stock" });
     }
 };
+
+// Action to get the food list:
+export const fetchFoodList = () => async dispatch => {
+    try{
+        const response = await axios.get("http://localhost:3090/stockpile/foodlist");
+        dispatch({ type: FETCH_FOODLIST, payload: response });
+    } catch(e){
+        dispatch({ type: ERROR_FOOD_LIST, payload: "Error loadinng your stock" });
+    }
+};
+
+
 
 
 

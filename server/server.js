@@ -24,7 +24,7 @@ app.use(cors(corsOptions));
 
 app.use(bodyParser.json({type: '*/*'}));
 
-
+// Add Food to Stock "DB"
 app.post("/stockpile/food", authenticate, (req, res) => {
   var food = new Food({
     name: req.body.name,
@@ -40,8 +40,8 @@ app.post("/stockpile/food", authenticate, (req, res) => {
     }
   );
 });
-
-app.get('/stockpile/food', authenticate, (req,res)=>{
+// Get List of Stock:
+app.get('/stockpile/foodlist', authenticate, (req,res)=>{
     Food.find({
         _creator: req.user._id
     }).then((foods)=>{
@@ -59,7 +59,6 @@ app.get("/stockpile/food/:id", authenticate, (req, res) => {
   if (!ObjectId.isValid(id)) {
     return res.status(404).send();
   }
-
   Food.findOne({
     _id: id,
     _creator: req.user._id
@@ -75,9 +74,7 @@ app.get("/stockpile/food/:id", authenticate, (req, res) => {
     })
     .catch(e => res.status(400).send());
 });
-
 // Route to  delete a food item:
-
 app.delete("stockpile/food/:id", authenticate, (req, res) => {
   var id = req.params.id;
 
@@ -99,7 +96,7 @@ app.delete("stockpile/food/:id", authenticate, (req, res) => {
     })
     .catch(e => res.status(400).send());
 });
-
+// Update Food Item
 app.patch("stockpile/food/:id", authenticate, (res, req) => {
   var id = res.params.id;
   var body = _.pick(req.body, [name, type, frig, count]);
