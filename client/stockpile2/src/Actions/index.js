@@ -54,6 +54,7 @@ export const fetchFoodList = () => async dispatch => {
     try{
         const response = await axios.get("http://localhost:3090/stockpile/foodlist");
         dispatch({ type: FETCH_FOODLIST, payload: response });
+        // console.log("RESPONSE",response);
     } catch(e){
         dispatch({ type: ERROR_FOOD_LIST, payload: "Error loadinng your stock" });
     }

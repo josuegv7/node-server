@@ -44,8 +44,8 @@ app.post("/stockpile/food", authenticate, (req, res) => {
 app.get('/stockpile/foodlist', authenticate, (req,res)=>{
     Food.find({
         _creator: req.user._id
-    }).then((foods)=>{
-        res.send({foods})
+    }).then((foodList)=>{
+      res.send({ foodList })
     }, (e)=>{
         res.status(400).send(e);
     });
