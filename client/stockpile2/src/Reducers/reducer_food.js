@@ -15,13 +15,7 @@ export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
         case FETCH_FOODLIST:
             // return _.mapKeys(action.payload.data, 'name');
-
             return arrayToObject(action.payload.data.foodList,"name");
-
-
-            //return action.payload.data.foodList;
-            // return ({...state, foods: action.payload});
-
         default:
             return state;
     }

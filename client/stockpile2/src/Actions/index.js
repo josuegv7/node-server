@@ -1,4 +1,4 @@
-import { AUTH_USER, AUTH_ERROR, FETCH_FOODLIST, ADD_NEW_FOOD, ERROR_FOOD_LIST, ERROR_ADDING_FOOD } from "./types";
+import {AUTH_USER, AUTH_ERROR, FETCH_FOODLIST, ADD_NEW_FOOD, ERROR_FOOD_LIST, ERROR_ADDING_FOOD, DELETE_FOOD,ERROR_DELETE_FOOD } from "./types";
 import axios from "axios";
 
 export const signup = (fromProps, callback) => async dispatch => {
@@ -52,13 +52,28 @@ export const addFood = (foodFormProps, callback) => async dispatch => {
 // Action to get the food list:
 export const fetchFoodList = () => async dispatch => {
     try{
-        const response = await axios.get("http://localhost:3090/stockpile/foodlist");
+        const response = await axios.get(`http://localhost:3090/stockpile/foodlist`);
         dispatch({ type: FETCH_FOODLIST, payload: response });
-        // console.log("RESPONSE",response);
     } catch(e){
         dispatch({ type: ERROR_FOOD_LIST, payload: "Error loadinng your stock" });
     }
 };
+
+// Action to delete food from food list:
+
+export const deleteFood = id => async dispatch => {
+         try {
+             const response = await axios.delete(
+             `http://localhost:3090/stockpile/foodlist/${id}`
+           );
+           dispatch({ type: DELETE_FOOD, payload: response });
+         } catch (e) {
+           dispatch({
+             type: ERROR_DELETE_FOOD,
+             payload: "Error deleting"
+           });
+         }
+       }; 
 
 
 

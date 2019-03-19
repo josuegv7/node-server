@@ -75,10 +75,10 @@ app.get("/stockpile/food/:id", authenticate, (req, res) => {
     .catch(e => res.status(400).send());
 });
 // Route to  delete a food item:
-app.delete("stockpile/food/:id", authenticate, (req, res) => {
+app.delete("/stockpile/foodlist/:id", authenticate, (req, res) => {
   var id = req.params.id;
-
-  if (!ObjectID.isValid(id)) {
+  console.log(id);
+  if (!ObjectId.isValid(id)) {
     return res.status(404).send();
   }
   Food.findOneAndRemove({

@@ -8,15 +8,29 @@ class FoodList extends Component {
     componentDidMount(){
         this.props.fetchFoodList();
     }
+
+    addIngredientToPot = ev => {
+        const val = ev.target.dataset.value;
+        const newPot = [...this.props.pot, val];
+        this.props.addToPot(newPot)
+    }
+
+    onDeleteClick = ev => {
+        const val = ev.target.dataset.value;
+        this.props.deleteFood(val);
+        this.props.fetchFoodList();
+    }
+
+
     displayFoodList() {
         return _.map(this.props.foods, food => {
             return (
               <tr>
-                <td key={food._id}>{food.name}</td>
+                <td key={food._id} onClick={this.addIngredientToPot.bind(this)}>{food.name}</td>
                 <td>{food.type}</td>
                 <td>{food.count}</td>
                 <td>
-                    <button data-value={food._id}> 
+                    <button data-value={food._id} onClick={this.onDeleteClick.bind(this)}> 
                         Throw Out
                     </button>
                 </td>
@@ -53,6 +67,6 @@ class FoodList extends Component {
 }
 
 function mapStateToProps(state) {
-    return {foods: state.foods};
+    return {foods: state.foods, pot: state.pot};
 }
 export default compose(connect(mapStateToProps, actions))(FoodList);
