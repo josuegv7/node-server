@@ -9,3 +9,6 @@ export const ERROR_ADDING_FOOD = "error_adding_food";
 export const ERROR_FOOD_LIST = "error_food_list";
 export const DELETE_FOOD = "delete_food";
 export const ERROR_DELETE_FOOD = "error_delete_food";
+
+
+export const ADD_INGREDIENT = "Add_Ingredient";

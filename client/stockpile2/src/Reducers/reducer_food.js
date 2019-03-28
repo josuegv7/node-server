@@ -1,5 +1,4 @@
 import { FETCH_FOODLIST } from '../Actions/types';
-import _ from "lodash";
 
 const INITIAL_STATE = {};
 

@@ -29,6 +29,8 @@ app.post("/stockpile/food", authenticate, (req, res) => {
   var food = new Food({
     name: req.body.name,
     type: req.body.type,
+    frig: req.body.frig,
+    count: req.body.count,
     _creator: req.user._id
   });
   food.save().then(

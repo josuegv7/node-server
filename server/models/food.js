@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 var foodSchema = new Schema({
   name: { type: String, required: true, trim: true },
   type: { type: String, required: true, trim: true },
-  frig: { type: Boolean },
+  frig: { type: Boolean, required: true },
   count: { type: Number, default: 1 },
   dateAdded: { Type: String },
   _creator:{

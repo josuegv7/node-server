@@ -1,4 +1,4 @@
-import {AUTH_USER, AUTH_ERROR, FETCH_FOODLIST, ADD_NEW_FOOD, ERROR_FOOD_LIST, ERROR_ADDING_FOOD, DELETE_FOOD,ERROR_DELETE_FOOD } from "./types";
+import { AUTH_USER, AUTH_ERROR, FETCH_FOODLIST, ADD_NEW_FOOD, ERROR_FOOD_LIST, ERROR_ADDING_FOOD, DELETE_FOOD, ERROR_DELETE_FOOD, ADD_INGREDIENT } from "./types";
 import axios from "axios";
 
 export const signup = (fromProps, callback) => async dispatch => {
@@ -75,8 +75,10 @@ export const deleteFood = id => async dispatch => {
          }
        }; 
 
-
-
-
-
-
+// Add Ingredient to Pot:
+export const addToPot = ingredient => {
+    return {
+        type: ADD_INGREDIENT,
+        payload: ingredient
+    };
+};

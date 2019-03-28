@@ -4,52 +4,53 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import * as actions from "../Actions";
 
-const renderField = field => {
-    const { input, type } = field;
-    return (
-        <div className="form-group">
-            <label> {field.label}</label>
-            <input {...input} type={type} />
-        </div>
-    );
-};
 
 class AddFood extends Component {
     onFoodFormSubmit = foodFormProps =>{
         this.props.addFood(foodFormProps)
     }
-    // refreshfoodlist() {
-    //     this.props.fetchFoodList();
-    // }
+    refreshfoodlist() {
+        this.props.fetchFoodList();
+    }
     render() {
         const { handleSubmit } = this.props;
         return (
           <div>
             <form onSubmit={handleSubmit(this.onFoodFormSubmit)}>
+              <label>Food: </label>
               <Field
                 label="Food: "
+                type="text"
                 name="name"
-                component={renderField}
+                component="input"
               />
+              <label>Type: </label>
+              <Field label="Type: " name="type" component="input" />
+              <label>Frig: </label>
+              <label>True</label>
               <Field
-                label="Type: "
-                name="type"
-                component={renderField}
-              />
-              <Field
-                label="Frig: "
                 name="frig"
-                component={renderField}
+                component="input"
+                type="radio"
+                value="true"
               />
+              <label>False</label>
+              <Field
+                name="frig"
+                component="input"
+                type="radio"
+                value="false"
+              />
+              <label>Count: </label>
               <Field
                 label="Count: "
                 name="count"
-                component={renderField}
+                component="input"
+                type="number"
+                placeholder="1"
               />
               <div>
-                <button type="submit">
-                  ADD
-                </button>
+                <button type="submit">ADD</button>
                 <button>Cancel</button>
               </div>
             </form>
@@ -63,4 +64,5 @@ AddFood = reduxForm({
   fields: ["name", "type", "frig", "count"]
 })(AddFood);
 
-export default compose(connect(null, actions))(AddFood);
+export default compose(
+  connect(null, actions))(AddFood);
