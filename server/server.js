@@ -1,4 +1,4 @@
-const _ = require('lodash'); 
+const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
 const {ObjectId} = require('mongodb');
@@ -11,7 +11,9 @@ var {mongoose} = require('./db/mongoose');
 var {Food} = require('./models/food');
 var {User} = require('./models/user');
 
-var app = express(); 
+const spoonacularController = require("./controllers/spoonacular")
+
+var app = express();
 
 // Set the JWT to x-auth with this the front end can access the token in the request.
 const corsOptions = {
@@ -20,7 +22,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// app.use(cors());
 
 app.use(bodyParser.json({type: '*/*'}));
 
@@ -119,7 +120,7 @@ app.patch("stockpile/food/:id", authenticate, (res, req) => {
     .catch(e => res.status(400).send());
 });
 
-// HTTP Call to POST /User
+// ======== HTTP Call to POST /User ===============
 
 app.post('/user', (req, res)=> {
     var body = _.pick(req.body, ['name', 'email', 'password']);
@@ -150,7 +151,7 @@ app.post('/user/login', (req, res)=>{
       .catch(e => {
         res.status(400).send();
       });
-}); 
+});
 
 app.delete('/user/logout', authenticate, (req, res) =>{
     req.user.removerToken(req.token).then(()=>{
@@ -159,6 +160,31 @@ app.delete('/user/logout', authenticate, (req, res) =>{
         res.status(400).send();
     });
 });
+
+// RECIPE LOOKUP:
+
+app.post('/spoon/recipeLookup', authenticate, spoonacularController.getRecipes);
+
+
+// Add Recipe to favorites:
+app.post("/stockpile/addrecipe", authenticate, (req, res) => {
+  var recipe = new Recipe({
+    name: req.body.name,
+    recipeID: req.body.recipeID,
+    recipeImage: req.body.recipeImage,
+    recipeURL: req.body.recipeURL,
+    _creator: req.user._id
+  });
+  recipe.save().then(
+    doc => {
+      res.send(doc);
+    },
+    e => {
+      res.status(400).send(e);
+    }
+  );
+});
+
 
 
 // Server Setup:

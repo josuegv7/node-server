@@ -12,3 +12,9 @@ export const ERROR_DELETE_FOOD = "error_delete_food";
 
 
 export const ADD_INGREDIENT = "Add_Ingredient";
+export const REMOVE_FROM_POT = "Remove_From_Pot"
+
+export const RECIPE_LOOKUP = "Recipe_Lookup";
+export const RECIPE_LOOKUP_ERROR = "Recipe_Lookup_Error"
+export const ADD_RECIPE_FAVORITE = "Add_Recipe_Favorite"
+export const FETCH_FAV_RECIPES = "Fetch_Fav_Recipes"

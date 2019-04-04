@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
-import { compose } from "redux";
+import { compose, bindActionCreators } from "redux";
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { lookuprecipesSpoon } from '../Actions/index.js'
+
 
 class Pot extends Component {
-    // onFormSubmit(event) {
-    //     event.preventDefault();
-    //     this.props.lookuprecipesYummly(this.props.pot);
+    onFormSubmit(event) {
+        event.preventDefault();
+        this.props.lookuprecipesSpoon(this.props.pot);
+    }
+
+    // removeFromPot = ev =>{
+    //   const val = ev.target.dataset.value;
+    //   console.log("POT INFO", val)
+    //   let filteredArray = this.state.pot.filter(item => item !== ev.target.value)
+    //   this.setState({pot: filteredArray})
     // }
+
 
     render() {
         if (this.props.pot[0]) {
@@ -16,6 +25,7 @@ class Pot extends Component {
           return this.renderEmptyPot();
         }
     }
+
     renderEmptyPot() {
         // return (<div><img src={potIcon} className={css.potIcon} alt='POT' /></div>)
         return(<div><h4>Empty POT</h4></div>)
@@ -23,18 +33,18 @@ class Pot extends Component {
     renderPot() {
         // const potIngredientList = () =>{
         // return (
-            
+
         //     <h5>POT is being rendered</h5>
-            
+
         // )}
         const potIngredientList = this.props.pot.map(function (ingredient) {
             return (
-              //<span key={0}>{ingredient}, </span>
               <span key={0}>{ingredient}, </span>
+
             );
         })
         return (
-            <form >
+            <form onSubmit= {this.onFormSubmit.bind(this)} >
                 <div>
                     <div>
                         <h5>POT:</h5>
@@ -49,12 +59,12 @@ class Pot extends Component {
     }
 };
 
-// function mapDispatchToProps(dispatch) {
-//     return bindActionCreators({ lookuprecipesYummly }, dispatch);
-// }
-function mapStateToProps(state) {
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ lookuprecipesSpoon }, dispatch);
+}
+function mapStateToProps({pot}) {
     return {
-        pot: state.pot
+        pot
     }
 };
-export default compose(connect(mapStateToProps))(Pot);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(Pot);

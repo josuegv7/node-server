@@ -4,6 +4,7 @@ import requireAuth from './requireAuth';
 import AddFood from './addFood';
 import FoodList from './foodList';
 import Pot from './pot';
+import RecipeList from './recipes';
 
 class StockPile extends Component {
     render(){
@@ -17,11 +18,13 @@ class StockPile extends Component {
             <br />
             <br />
             <Pot/>
+            <br />
+            <br />
+            <RecipeList />
+
           </div>
         );
     }
 };
 
 export default requireAuth(StockPile);
-
-

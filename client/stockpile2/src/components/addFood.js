@@ -50,7 +50,9 @@ class AddFood extends Component {
                 placeholder="1"
               />
               <div>
-                <button type="submit">ADD</button>
+                <button type="submit" onClick={this.refreshfoodlist()}>
+                  ADD
+                </button>
                 <button>Cancel</button>
               </div>
             </form>

@@ -11,12 +11,6 @@ class FoodList extends Component {
 
     addIngredientToPot = ev => {
         const val = ev.target.dataset.value;
-        
-               
-        // const newPot = [...this.props.pot, val];
-        // console.log("newPot: ", newPot)
-        // this.props.addToPot(newPot)
-
         this.props.addToPot(val)
     }
 
@@ -30,9 +24,8 @@ class FoodList extends Component {
     displayFoodList() {
         return _.map(this.props.foods, food => {
             return (
-              <tr>
+              <tr key={food._id}>
                 <td
-                  key={food._id}
                   onClick={this.addIngredientToPot.bind(this)}
                   data-value={food.name}
                 >
@@ -40,6 +33,7 @@ class FoodList extends Component {
                 </td>
                 <td>{food.type}</td>
                 <td>{food.count}</td>
+                <td>{food.created_at}</td>
                 <td>
                   <button
                     data-value={food._id}
@@ -50,7 +44,7 @@ class FoodList extends Component {
                 </td>
               </tr>
             );
-        });      
+        });
     }
     render() {
         return (
@@ -67,6 +61,7 @@ class FoodList extends Component {
                         <th>Name</th>
                         <th>Type</th>
                         <th>Count</th>
+                        <th>Date Added</th>
                         <th>Throw Out</th>
                       </tr>
                     </thead>
@@ -82,7 +77,7 @@ class FoodList extends Component {
 
 function mapStateToProps(state) {
     return {
-      foods: state.foods, 
+      foods: state.foods,
       pot: state.pot
     };
 }

@@ -1,6 +1,8 @@
-import { AUTH_USER, AUTH_ERROR, FETCH_FOODLIST, ADD_NEW_FOOD, ERROR_FOOD_LIST, ERROR_ADDING_FOOD, DELETE_FOOD, ERROR_DELETE_FOOD, ADD_INGREDIENT } from "./types";
+import { AUTH_USER, AUTH_ERROR, FETCH_FOODLIST, ADD_NEW_FOOD, ERROR_FOOD_LIST, ERROR_ADDING_FOOD, DELETE_FOOD, ERROR_DELETE_FOOD, ADD_INGREDIENT, RECIPE_LOOKUP, RECIPE_LOOKUP_ERROR,ADD_RECIPE_FAVORITE } from "./types";
 import axios from "axios";
 
+
+// =================  AUTH FUNCTIONS ====================
 export const signup = (fromProps, callback) => async dispatch => {
     try {
         const response = await axios.post("http://localhost:3090/user", fromProps);
@@ -36,7 +38,7 @@ export const signout = () => {
     };
 };
 
-// ========================================================== //
+// =================== FOOD FUNCTIONS ================================= //
 
 // Add a food to the DB:
 export const addFood = (foodFormProps, callback) => async dispatch => {
@@ -73,7 +75,7 @@ export const deleteFood = id => async dispatch => {
              payload: "Error deleting"
            });
          }
-       }; 
+       };
 
 // Add Ingredient to Pot:
 export const addToPot = ingredient => {
@@ -82,3 +84,34 @@ export const addToPot = ingredient => {
         payload: ingredient
     };
 };
+
+
+
+//  ================== RECIPE LOOKUP ==================================
+
+
+export const lookuprecipesSpoon = (ingredientList) => async dispatch =>{
+    try{
+        const response = await axios.post(
+            'http://localhost:3090/spoon/recipeLookup',
+            ingredientList
+        );
+        dispatch({ type: RECIPE_LOOKUP, payload:response.data});
+    } catch(e){
+        dispatch({ type: RECIPE_LOOKUP_ERROR, payload: e });
+        console.log(e)
+    }
+}
+
+export const recipeToFavorite = (recipeData) => async dispatch =>{
+    try{
+        const response = await axios.post(
+            'http://localhost:3090/stockpile/addrecipe',
+            recipeData
+        );
+        dispatch({ type: ADD_RECIPE_FAVORITE, payload:response.data});
+    } catch(e){
+        dispatch({ type: RECIPE_LOOKUP_ERROR, payload: e });
+        console.log(e)
+    }
+}
