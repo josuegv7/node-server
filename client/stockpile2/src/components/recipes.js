@@ -1,22 +1,22 @@
 import React, { Component } from "react";
+import { compose ,bindActionCreators} from "redux";
 import { connect } from "react-redux";
-import { recipeToFavorite } from '../Actions/index.js'
-
+import {recipeToFavorite} from "../Actions";
 
 class RecipeList extends Component {
+  // constructor() {
+  //   super();
+  //   // This binding is necessary to make `this` work in the callback
+  //   this.addtoFavorites = this.addtoFavorites.bind(this);
+  // }
 
-   addtoFavorites = (ev) => {
-    const val = ev.target.dataset.value;
-    this.props.recipeToFavorite(val);
-    console.log(val)
+  addtoFavorites = (event) => {
+     // event.preventDefault();
 
-    // var handleClick = (e) => {
-    //     console.log(e.target.value);
-    // }
-
-}
-
-
+     const val = event.target.dataset.value;
+     this.props.recipeToFavorite(val);
+    console.log("Response toclick:", val);
+ };
 
   renderRecipe(recipeData) {
     let recipeName = recipeData.recipeName;
@@ -25,18 +25,19 @@ class RecipeList extends Component {
     let recipeURL = "https://www.yummly.com/recipe/" + recipeData.id;
     let recipeImage = recipeData.smallImageUrls;
     var recipeDataObj = { name:recipeName, recipeID:recipeId, recipeImage:recipeImage, recipeURL: recipeURL }
+    var recipeJSONData = JSON.stringify(recipeDataObj)
 
     return (
       <div>
-      <div className="col-lg-4 col-md-6 mb-4" key={recipeData.id}>
-              <div className="card h-100">
+      <div key={recipeData.id}>
+              <div>
                 <img
                   src= {recipeImage}
                   alt="FoodPic"
                 />
-                <h4 className="card-title"> {recipeName} </h4>
+                <h4> {recipeName} </h4>
                 <div>
-                  <h3 className="active">Ingredients</h3>
+                  <h3>Ingredients</h3>
                 </div>
                 <ul>
                   {recipeIngredients}
@@ -49,28 +50,34 @@ class RecipeList extends Component {
               </div>
             </div>
             <button
-              onClick={this.addtoFavorites.bind(this)}
-              data-value={recipeDataObj}
+            data-value={recipeJSONData}
+            onClick={this.addtoFavorites.bind(this)}
             >
               Fav
             </button>
           </div>
           );
+
   }
+
   render() {
     return (
       <div>
         <h2 className="">Recipes</h2>
-        <div className="">{this.props.recipes.map(this.renderRecipe)}</div>
+        <div className="">{this.props.recipes.map(this.renderRecipe,this)}</div>
       </div>
     );
   }
 }
 
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ recipeToFavorite }, dispatch);
+}
+
 function mapStateToProps({ recipes }) {
-//console.log("List Recipes", recipes)
   return {
     recipes
   };
 }
-export default connect(mapStateToProps)(RecipeList);
+export default compose(connect(mapStateToProps,mapDispatchToProps))(RecipeList);

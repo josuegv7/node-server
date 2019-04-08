@@ -1,19 +1,18 @@
-import { RECIPE_LOOKUP } from '../Actions/types';
+import { FETCH_FAV_RECIPES } from "../Actions/types";
 
-const INITIAL_STATE = []
+const INITIAL_STATE = {};
 
-
-const recipeReducer = (state = INITIAL_STATE , action) => {
-     // console.log("FRONT STATE", state)
-    switch (action.type){
-        case RECIPE_LOOKUP:
-          console.log("FRONT ACTION", action.payload.matches)
-            // return [...state, action.payload.matches];
-            return [...action.payload.matches, ...state];
+const favRecipeReducer = (state = INITIAL_STATE, action) => {
+  // console.log("FRONT STATE", state)
+  switch (action.type) {
+    case FETCH_FAV_RECIPES:
+      console.log("FRONT ACTION FAV", action.payload);
+      // return [...state, action.payload.matches];
+      return [...state, action.payload];
 
     default:
-        return state;
-    }
-}
+      return state;
+  }
+};
 
-export default recipeReducer;
+export default favRecipeReducer;

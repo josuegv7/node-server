@@ -10,6 +10,7 @@ const {authenticate} = require('./middlewear/authenticate');
 var {mongoose} = require('./db/mongoose');
 var {Food} = require('./models/food');
 var {User} = require('./models/user');
+var {Recipe} = require('./models/recipes')
 
 const spoonacularController = require("./controllers/spoonacular")
 
@@ -184,8 +185,6 @@ app.post("/stockpile/addrecipe", authenticate, (req, res) => {
     }
   );
 });
-
-
 
 // Server Setup:
 

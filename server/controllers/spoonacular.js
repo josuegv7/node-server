@@ -36,14 +36,14 @@ module.exports ={
     let ingredientsString = foodList.toString();
     console.log("Controller Req Body", ingredientsString)
     axios.get(
-      `http://api.yummly.com/v1/api/recipes?_app_id=${Yummly_APP_ID}&_app_key=${Yummly_API_Key}&q=${ingredientsString}&maxResult=30&start=0&requirePictures=true`
+      `http://api.yummly.com/v1/api/recipes?_app_id=${Yummly_APP_ID}&_app_key=${Yummly_API_Key}&q=${ingredientsString}&maxResult=3&start=0&requirePictures=true`
     )
     .then(apiResponse => {
       //console.log(apiResponse.data)
       res.send(apiResponse.data)
     })
     .catch(e => {
-      console.log("Error", e);
+      console.log("Error with the API Response: ", e);
       res.status(400).send(e)
     });
 }

@@ -103,15 +103,18 @@ export const lookuprecipesSpoon = (ingredientList) => async dispatch =>{
     }
 }
 
+// ================== ADD RECIPE TO FAVORITES =============================
+
 export const recipeToFavorite = (recipeData) => async dispatch =>{
+  console.log("RecipeData", recipeData)
     try{
         const response = await axios.post(
-            'http://localhost:3090/stockpile/addrecipe',
-            recipeData
-        );
+          'http://localhost:3090/stockpile/addrecipe',
+          recipeData);
         dispatch({ type: ADD_RECIPE_FAVORITE, payload:response.data});
+        console.log("Sending to BAck")
     } catch(e){
         dispatch({ type: RECIPE_LOOKUP_ERROR, payload: e });
-        console.log(e)
+        console.log("ERROR ADDING TO FAVORITE", e)
     }
 }
