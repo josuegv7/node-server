@@ -5,6 +5,7 @@ import AddFood from './addFood';
 import FoodList from './foodList';
 import Pot from './pot';
 import RecipeList from './recipes';
+import FavoritesList from './favoriteRecipes'
 
 class StockPile extends Component {
     render(){
@@ -21,7 +22,9 @@ class StockPile extends Component {
             <br />
             <br />
             <RecipeList />
-
+            <br />
+            <br />
+            <FavoritesList />
           </div>
         );
     }

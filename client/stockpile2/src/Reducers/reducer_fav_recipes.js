@@ -2,17 +2,18 @@ import { FETCH_FAV_RECIPES } from "../Actions/types";
 
 const INITIAL_STATE = {};
 
-const favRecipeReducer = (state = INITIAL_STATE, action) => {
-  // console.log("FRONT STATE", state)
+// Function to covnert an Array of objects to an Object of Objects
+const arrayToObject = (array, keyField) =>
+  array.reduce((obj, item) => {
+    obj[item[keyField]] = item;
+    return obj;
+  }, {});
+
+export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case FETCH_FAV_RECIPES:
-      console.log("FRONT ACTION FAV", action.payload);
-      // return [...state, action.payload.matches];
-      return [...state, action.payload];
-
+      return arrayToObject(action.payload.data.favoriteRecipesList,"name");
     default:
       return state;
   }
 };
-
-export default favRecipeReducer;

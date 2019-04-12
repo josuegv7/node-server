@@ -20,6 +20,13 @@ class FoodList extends Component {
     this.props.fetchFoodList();
   };
 
+  onReduceClick = ev => {
+    const val = ev.target.dataset.value;
+    this.props.updateFoodCount(val);
+    console.log("val", val)
+    this.props.fetchFoodList();
+  };
+
   displayFoodList() {
     return _.map(this.props.foods, food => {
       return (
@@ -33,6 +40,14 @@ class FoodList extends Component {
           <td>{food.type}</td>
           <td>{food.count}</td>
           <td>{food.created_at}</td>
+          <td>
+            <button
+              data-value={food._id}
+              onClick={this.onReduceClick.bind(this)}
+            >
+              Reduce
+            </button>
+          </td>
           <td>
             <button
               data-value={food._id}
@@ -61,6 +76,7 @@ class FoodList extends Component {
                     <th>Type</th>
                     <th>Count</th>
                     <th>Date Added</th>
+                    <th>Reduce</th>
                     <th>Throw Out</th>
                   </tr>
                 </thead>

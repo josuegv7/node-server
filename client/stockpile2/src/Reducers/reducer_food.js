@@ -1,4 +1,4 @@
-import { FETCH_FOODLIST } from '../Actions/types';
+import { FETCH_FOODLIST, DECREMENT } from '../Actions/types';
 
 const INITIAL_STATE = {};
 
@@ -13,12 +13,10 @@ const arrayToObject = (array, keyField) =>
 export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
         case FETCH_FOODLIST:
-            // return _.mapKeys(action.payload.data, 'name');
             return arrayToObject(action.payload.data.foodList,"name");
+        case DECREMENT:
+          return arrayToObject(action.payload.data.foodList,"name");
         default:
             return state;
     }
-}
-
-
-
+};

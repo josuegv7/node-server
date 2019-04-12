@@ -1,4 +1,23 @@
-import { AUTH_USER, AUTH_ERROR, FETCH_FOODLIST, ADD_NEW_FOOD, ERROR_FOOD_LIST, ERROR_ADDING_FOOD, DELETE_FOOD, ERROR_DELETE_FOOD, ADD_INGREDIENT, RECIPE_LOOKUP, RECIPE_LOOKUP_ERROR,ADD_RECIPE_FAVORITE } from "./types";
+import {
+  AUTH_USER,
+  AUTH_ERROR,
+  FETCH_FOODLIST,
+  ADD_NEW_FOOD,
+  ERROR_FOOD_LIST,
+  ERROR_ADDING_FOOD,
+  DELETE_FOOD,
+  ERROR_DELETE_FOOD,
+  DECREMENT,
+  ERROR_DECREMENTING,
+  ADD_INGREDIENT,
+  RECIPE_LOOKUP,
+  RECIPE_LOOKUP_ERROR,
+  ADD_RECIPE_FAVORITE,
+  ERROR_FAVORITES_LIST,
+  FETCH_FAV_RECIPES,
+  DELETE_RECIPE,
+  ERROR_DELETE_RECIPE
+} from "./types";
 import axios from "axios";
 
 
@@ -62,7 +81,6 @@ export const fetchFoodList = () => async dispatch => {
 };
 
 // Action to delete food from food list:
-
 export const deleteFood = id => async dispatch => {
          try {
              const response = await axios.delete(
@@ -76,6 +94,21 @@ export const deleteFood = id => async dispatch => {
            });
          }
        };
+
+export const updateFoodCount = id => async dispatch => {
+    console.log("ID:", id)
+    try{
+        const response = await axios.patch(
+          `http://localhost:3090/stockpile/food/${id}`
+        );
+        console.log("RESPONSE", response)
+        dispatch({ type: DECREMENT, payload: response });
+    } catch(e){
+        dispatch({
+            type: ERROR_DECREMENTING, payload: "Error reducing food count"
+        });
+    }
+};
 
 // Add Ingredient to Pot:
 export const addToPot = ingredient => {
@@ -118,3 +151,31 @@ export const recipeToFavorite = (recipeData) => async dispatch =>{
         console.log("ERROR ADDING TO FAVORITE", e)
     }
 }
+
+
+// Action to get the food list:
+export const fetchFavoriteRecipesList = () => async dispatch => {
+    try{
+        const response = await axios.get(`http://localhost:3090/stockpile/favoriterecipes`);
+        dispatch({ type: FETCH_FAV_RECIPES, payload: response });
+    } catch(e){
+        dispatch({ type: ERROR_FAVORITES_LIST, payload: "Error loadinng your favorite recipes" });
+    }
+};
+
+export const deleteRecipe = id => async dispatch => {
+         try {
+             const response = await axios.delete(
+             `http://localhost:3090/stockpile/favoriterecipes/${id}`
+           );
+           dispatch({ type: DELETE_RECIPE, payload: response });
+         } catch (e) {
+           dispatch({
+             type: ERROR_DELETE_RECIPE,
+             payload: "Error deleting your Favorite Recipe"
+           });
+         }
+};
+
+
+

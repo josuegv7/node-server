@@ -12,10 +12,8 @@ class RecipeList extends Component {
 
   addtoFavorites = (event) => {
      // event.preventDefault();
-
      const val = event.target.dataset.value;
      this.props.recipeToFavorite(val);
-    console.log("Response toclick:", val);
  };
 
   renderRecipe(recipeData) {

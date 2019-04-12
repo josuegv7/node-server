@@ -102,19 +102,20 @@ app.delete("/stockpile/foodlist/:id", authenticate, (req, res) => {
 });
 // Update Food Item
 app.patch("stockpile/food/:id", authenticate, (res, req) => {
+  console.log("RES:",res)
   var id = res.params.id;
   var body = _.pick(req.body, [name, type, frig, count]);
 
   Food.findOneAndUpdate(
     { _id: id, _creator: req.user._id },
-    { $set: body },
+    { $inc: { count: -1 } },
     { new: true }
   )
-    .then(food => {
+  food.save().then(food => {
       if (!food) {
-        console.log("Updating your information");
         res.status(404).send();
       } else {
+        console.log("Updated Count for the food");
         res.send({ food });
       }
     })
@@ -163,9 +164,7 @@ app.delete('/user/logout', authenticate, (req, res) =>{
 });
 
 // RECIPE LOOKUP:
-
 app.post('/spoon/recipeLookup', authenticate, spoonacularController.getRecipes);
-
 
 // Add Recipe to favorites:
 app.post("/stockpile/addrecipe", authenticate, (req, res) => {
@@ -185,6 +184,68 @@ app.post("/stockpile/addrecipe", authenticate, (req, res) => {
     }
   );
 });
+
+// Get favorite Recipe List:
+
+app.get('/stockpile/favoriterecipes', authenticate, (req,res)=>{
+    Recipe.find({
+        _creator: req.user._id
+    }).then((favoriteRecipesList)=>{
+      res.send({ favoriteRecipesList })
+    }, (e)=>{
+        res.status(400).send(e);
+    });
+});
+
+
+// Route to  delete Recipe from Favorites:
+app.delete("/stockpile/favoriterecipes/:id", authenticate, (req, res) => {
+  var id = req.params.id;
+  console.log(id);
+  if (!ObjectId.isValid(id)) {
+    return res.status(404).send();
+  }
+  Recipe.findOneAndRemove({
+    _id: id,
+    _creator: req.user._id
+  })
+    .then(recipe => {
+      if (recipe) {
+        console.log("The Recipe was removed from your favorites");
+        res.send({ recipe });
+      } else {
+        res.status(404).send();
+        console.log("404: The Recipe was not found");
+      }
+    })
+    .catch(e => res.status(400).send());
+});
+
+app.patch("stockpile/food/:id", authenticate, (res, req) => {
+  console.log("RES:", res);
+  var id = req.params.id;
+  var body = _.pick(req.body, [name, type, frig, count]);
+
+  Food.findOneAndUpdate(
+    { _id: id, _creator: req.user._id },
+    { $inc: { count: -1 } },
+    { new: true }
+  );
+  food
+    .save()
+    .then(food => {
+      if (!food) {
+        res.status(404).send();
+      } else {
+        console.log("Updated Count for the food");
+        res.send({ food });
+      }
+    })
+    .catch(e => res.status(400).send());
+});
+
+
+
 
 // Server Setup:
 
