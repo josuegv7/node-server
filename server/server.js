@@ -55,7 +55,6 @@ app.get('/stockpile/foodlist', authenticate, (req,res)=>{
     });
 });
 
-
 // Get request with a query string in the URL
 app.get("/stockpile/food/:id", authenticate, (req, res) => {
   var id = req.params.id;
@@ -101,17 +100,19 @@ app.delete("/stockpile/foodlist/:id", authenticate, (req, res) => {
     .catch(e => res.status(400).send());
 });
 // Update Food Item
-app.patch("stockpile/food/:id", authenticate, (res, req) => {
-  console.log("RES:",res)
-  var id = res.params.id;
-  var body = _.pick(req.body, [name, type, frig, count]);
+app.patch("/stockpile/food/:id", authenticate, (req, res) => {
+  var id = req.params.id;
+
+  console.log(id);
+  if (!ObjectId.isValid(id)) {
+    return res.status(404).send();
+  }
 
   Food.findOneAndUpdate(
     { _id: id, _creator: req.user._id },
-    { $inc: { count: -1 } },
-    { new: true }
+    { $inc: { count: -1 } }
   )
-  food.save().then(food => {
+    .then(food => {
       if (!food) {
         res.status(404).send();
       } else {
@@ -119,7 +120,7 @@ app.patch("stockpile/food/:id", authenticate, (res, req) => {
         res.send({ food });
       }
     })
-    .catch(e => res.status(400).send());
+    .catch(e => res.status(400).send(e));;
 });
 
 // ======== HTTP Call to POST /User ===============
@@ -186,7 +187,6 @@ app.post("/stockpile/addrecipe", authenticate, (req, res) => {
 });
 
 // Get favorite Recipe List:
-
 app.get('/stockpile/favoriterecipes', authenticate, (req,res)=>{
     Recipe.find({
         _creator: req.user._id
@@ -220,31 +220,6 @@ app.delete("/stockpile/favoriterecipes/:id", authenticate, (req, res) => {
     })
     .catch(e => res.status(400).send());
 });
-
-app.patch("stockpile/food/:id", authenticate, (res, req) => {
-  console.log("RES:", res);
-  var id = req.params.id;
-  var body = _.pick(req.body, [name, type, frig, count]);
-
-  Food.findOneAndUpdate(
-    { _id: id, _creator: req.user._id },
-    { $inc: { count: -1 } },
-    { new: true }
-  );
-  food
-    .save()
-    .then(food => {
-      if (!food) {
-        res.status(404).send();
-      } else {
-        console.log("Updated Count for the food");
-        res.send({ food });
-      }
-    })
-    .catch(e => res.status(400).send());
-});
-
-
 
 
 // Server Setup:

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { compose ,bindActionCreators} from "redux";
 import { connect } from "react-redux";
-import {recipeToFavorite} from "../Actions";
+import {recipeToFavorite, fetchFavoriteRecipesList} from "../Actions";
 
 class RecipeList extends Component {
   // constructor() {
@@ -14,6 +14,7 @@ class RecipeList extends Component {
      // event.preventDefault();
      const val = event.target.dataset.value;
      this.props.recipeToFavorite(val);
+     this.props.fetchFavoriteRecipesList();
  };
 
   renderRecipe(recipeData) {
@@ -70,7 +71,10 @@ class RecipeList extends Component {
 
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ recipeToFavorite }, dispatch);
+    return bindActionCreators(
+      { recipeToFavorite, fetchFavoriteRecipesList },
+      dispatch
+    );
 }
 
 function mapStateToProps({ recipes }) {
