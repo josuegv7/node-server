@@ -1,31 +1,31 @@
 import _ from "lodash";
 import React, { Component } from "react";
+import Moment from "react-moment";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import * as actions from "../Actions";
 
 class FoodList extends Component {
+  
   componentDidMount() {
     this.props.fetchFoodList();
   }
-
   addIngredientToPot = ev => {
     const val = ev.target.dataset.value;
     this.props.addToPot(val);
   };
-
   onDeleteClick = ev => {
     const val = ev.target.dataset.value;
     this.props.deleteFood(val);
     this.props.fetchFoodList();
   };
-
   onReduceClick = ev => {
     const val = ev.target.dataset.value;
     this.props.updateFoodCount(val);
     console.log("val", val)
     this.props.fetchFoodList();
   };
+
 
   displayFoodList() {
     return _.map(this.props.foods, food => {
@@ -39,7 +39,9 @@ class FoodList extends Component {
           </td>
           <td>{food.type}</td>
           <td>{food.count}</td>
-          <td>{food.created_at}</td>
+          <td>
+            <Moment format="MMM Do YY">{food.created_at}</Moment>
+          </td>
           <td>
             <button
               data-value={food._id}

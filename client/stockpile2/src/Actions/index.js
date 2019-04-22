@@ -96,12 +96,10 @@ export const deleteFood = id => async dispatch => {
        };
 
 export const updateFoodCount = id => async dispatch => {
-    console.log("ID:", id)
     try{
         const response = await axios.patch(
           `http://localhost:3090/stockpile/food/${id}`
         );
-        console.log("RESPONSE", response)
         dispatch({ type: DECREMENT, payload: response });
     } catch(e){
         dispatch({

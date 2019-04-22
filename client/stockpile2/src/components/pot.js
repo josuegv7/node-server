@@ -10,12 +10,12 @@ class Pot extends Component {
         this.props.lookuprecipesSpoon(this.props.pot);
     }
 
-    // removeFromPot = ev =>{
-    //   const val = ev.target.dataset.value;
-    //   console.log("POT INFO", val)
-    //   let filteredArray = this.state.pot.filter(item => item !== ev.target.value)
-    //   this.setState({pot: filteredArray})
-    // }
+    removeFromPot = ev =>{
+      const val = ev.target.dataset.value;
+      console.log("POT INFO", val)
+      let filteredArray = this.state.pot.filter(item => item !== ev.target.value)
+      this.setState({pot: filteredArray})
+    }
 
 
     render() {

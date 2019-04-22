@@ -1,5 +1,6 @@
 import _ from "lodash";
 import React, { Component } from "react";
+import Moment from "react-moment";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import * as actions from "../Actions";
@@ -30,7 +31,10 @@ class FavoritRecipeList extends Component {
             <img src={favorite.recipeImage} alt="FoodPic" />
           </td>
           <td>{favorite.recipeURL}</td>
-          <td>{favorite.created_at}</td>
+          <td>
+            {" "}
+            <Moment format="MMM Do YY">{favorite.created_at}</Moment>
+          </td>
           <td>
             <button
               data-value={favorite._id}
