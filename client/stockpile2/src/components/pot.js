@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { compose, bindActionCreators } from "redux";
 import { connect } from 'react-redux';
-import { lookuprecipesSpoon } from '../Actions/index.js'
-
-
+import { lookuprecipesSpoon } from '../Actions/index.js';
+import potIcon from '../assets/images/005-cook.png';
+import Button from 'react-bootstrap/Button';
+import '../assets/css/custom.css';
 class Pot extends Component {
     onFormSubmit(event) {
         event.preventDefault();
@@ -12,7 +13,6 @@ class Pot extends Component {
 
     removeFromPot = ev =>{
       const val = ev.target.dataset.value;
-      console.log("POT INFO", val)
       let filteredArray = this.state.pot.filter(item => item !== ev.target.value)
       this.setState({pot: filteredArray})
     }
@@ -27,16 +27,9 @@ class Pot extends Component {
     }
 
     renderEmptyPot() {
-        // return (<div><img src={potIcon} className={css.potIcon} alt='POT' /></div>)
-        return(<div><h4>Empty POT</h4></div>)
+        return (<div><img className="potImage " src={potIcon} alt='POT' /></div>)
     }
     renderPot() {
-        // const potIngredientList = () =>{
-        // return (
-
-        //     <h5>POT is being rendered</h5>
-
-        // )}
         const potIngredientList = this.props.pot.map(function (ingredient) {
             return (
               <span key={0}>{ingredient}, </span>
@@ -52,7 +45,7 @@ class Pot extends Component {
                     <div>
                         {potIngredientList}
                     </div>
-                    <button type="submit">LOOK UP</button>
+                    <Button type="submit" variant="flat">LOOK UP</Button>
                 </div>
             </form>
         )

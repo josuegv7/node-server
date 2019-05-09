@@ -2,13 +2,11 @@ import React, { Component } from "react";
 import { compose ,bindActionCreators} from "redux";
 import { connect } from "react-redux";
 import {recipeToFavorite, fetchFavoriteRecipesList} from "../Actions";
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
+
 
 class RecipeList extends Component {
-  // constructor() {
-  //   super();
-  //   // This binding is necessary to make `this` work in the callback
-  //   this.addtoFavorites = this.addtoFavorites.bind(this);
-  // }
 
   addtoFavorites = (event) => {
      // event.preventDefault();
@@ -27,34 +25,32 @@ class RecipeList extends Component {
     var recipeJSONData = JSON.stringify(recipeDataObj)
 
     return (
-      <div>
-      <div key={recipeData.id}>
-              <div>
-                <img
-                  src= {recipeImage}
-                  alt="FoodPic"
-                />
-                <h4> {recipeName} </h4>
-                <div>
-                  <h3>Ingredients</h3>
-                </div>
-                <ul>
-                  {recipeIngredients}
-                </ul>
-                <h6>
-                  <a href={recipeURL}>
+      <tr key={recipeData.id}>
+            <td>
+             {recipeName} 
+            </td>
+            <td>                
+              <img src={recipeImage} alt="FoodPic"/>
+            </td>
+            <td className="text">
+              <span className="tableSpan">{recipeIngredients}</span>
+            </td>
+            <td>
+              <a href={recipeURL}>
                     Recipe
-                  </a>
-                </h6>
-              </div>
-            </div>
-            <button
-            data-value={recipeJSONData}
-            onClick={this.addtoFavorites.bind(this)}
-            >
-              Fav
-            </button>
-          </div>
+              </a>
+            </td>
+            <td>
+              <Button
+              data-value={recipeJSONData}
+              onClick={this.addtoFavorites.bind(this)}
+              size="sm"
+              variant="flat"
+              >
+                Fav
+              </Button>
+            </td>
+          </tr>
           );
 
   }
@@ -63,7 +59,20 @@ class RecipeList extends Component {
     return (
       <div>
         <h2 className="">Recipes</h2>
-        <div className="">{this.props.recipes.map(this.renderRecipe,this)}</div>
+        <Table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Image</th>
+              <th>Ingredients</th>
+              <th>Recipe</th>
+              <th>Add to Favorites</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.props.recipes.map(this.renderRecipe, this)}
+          </tbody>
+        </Table>
       </div>
     );
   }

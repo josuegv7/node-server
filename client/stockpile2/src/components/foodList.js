@@ -4,6 +4,9 @@ import Moment from "react-moment";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import * as actions from "../Actions";
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
+
 
 class FoodList extends Component {
   
@@ -17,12 +20,12 @@ class FoodList extends Component {
   onDeleteClick = ev => {
     const val = ev.target.dataset.value;
     this.props.deleteFood(val);
+    this.props.updateFoodCount(val);
     this.props.fetchFoodList();
   };
   onReduceClick = ev => {
     const val = ev.target.dataset.value;
     this.props.updateFoodCount(val);
-    console.log("val", val)
     this.props.fetchFoodList();
   };
 
@@ -40,23 +43,18 @@ class FoodList extends Component {
           <td>{food.type}</td>
           <td>{food.count}</td>
           <td>
-            <Moment format="MMM Do YY">{food.created_at}</Moment>
+            <Moment format="MMM D YY">{food.created_at}</Moment>
           </td>
+         
           <td>
-            <button
-              data-value={food._id}
-              onClick={this.onReduceClick.bind(this)}
-            >
-              Reduce
-            </button>
-          </td>
-          <td>
-            <button
+            <Button
               data-value={food._id}
               onClick={this.onDeleteClick.bind(this)}
+              size="sm"
+              variant="danger"
             >
               Throw Out
-            </button>
+            </Button>
           </td>
         </tr>
       );
@@ -71,19 +69,18 @@ class FoodList extends Component {
           </div>
           <div>
             <div>
-              <table>
+              <Table bordered size="md" responsive>
                 <thead>
                   <tr>
                     <th>Name</th>
                     <th>Type</th>
                     <th>Count</th>
                     <th>Date Added</th>
-                    <th>Reduce</th>
                     <th>Throw Out</th>
                   </tr>
                 </thead>
                 <tbody>{this.displayFoodList()}</tbody>
-              </table>
+              </Table>
             </div>
           </div>
         </div>

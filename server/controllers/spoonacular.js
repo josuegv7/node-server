@@ -1,5 +1,8 @@
 const axios = require('axios');
+const apiKey = "dS6FP3ZAR1msh1hzkPHYQEJxLoinp1LioKIjsnQOM1tx25D89L";
 
+const Yummly_API_Key = "41e42a842e2274fc2bf2afd489100120"
+const Yummly_APP_ID = "f00d3c08"
 
 
 // module.exports ={
