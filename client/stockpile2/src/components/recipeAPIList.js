@@ -3,6 +3,8 @@ import Collapse from 'react-bootstrap/Collapse';
 import APIRecipeImage from '../assets/images/002-search.png';
 import RecipeList from './recipes';
 import Image from 'react-bootstrap/Image';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import '../assets/css/custom.css';
 
 class RecListAPI extends Component {
@@ -17,15 +19,20 @@ class RecListAPI extends Component {
         const { open } = this.state;
         return (
             <div style={{ width: "12rem" }}>
-                <Image className="RecipeListAPI" src={APIRecipeImage} fluid onClick={() => this.setState({ open: !open })}
+            <Row>
+                <Col><h3>Recipes:</h3></Col>
+                <Col>
+                    <Image className="RecipeListAPI" src={APIRecipeImage} fluid onClick={() => this.setState({ open: !open })}
                     aria-controls="example-collapse-text"
                     aria-expanded={open} />
 
-                <Collapse in={this.state.open}>
+                    <Collapse in={this.state.open}>
                     <div id="example-collapse-text">
                         <RecipeList />
                     </div>
-                </Collapse>
+                    </Collapse>
+                </Col>
+            </Row>
             </div>
         );
     }

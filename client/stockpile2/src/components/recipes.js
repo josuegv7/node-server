@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/Button';
 class RecipeList extends Component {
 
   addtoFavorites = (event) => {
-     // event.preventDefault();
+     event.preventDefault();
      const val = event.target.dataset.value;
      this.props.recipeToFavorite(val);
      this.props.fetchFavoriteRecipesList();
@@ -58,7 +58,6 @@ class RecipeList extends Component {
   render() {
     return (
       <div>
-        <h2 className="">Recipes</h2>
         <Table>
           <thead>
             <tr>

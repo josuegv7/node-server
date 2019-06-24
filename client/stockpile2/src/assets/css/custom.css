@@ -1,9 +1,12 @@
 .addImage{
-    width: 45%;
+    width: 35%;
+    margin-left: -30px;
 }
 
 .frigImage{
     width: 30%;
+    margin-left: -80px;
+
 }
 
 .recipeBookImage{
@@ -11,15 +14,20 @@
 }
 
 .potImage{
-    width: 45%;
+    width: 30%;
+    margin-left: -57px;
 }
 
 .favRecipeList{
-    width: 22%;
+    width: 15%;
+    margin-left: -65px;
+    padding-top: 20px;
 }
 
 .RecipeListAPI{
-    width: 40%;
+    width: 45%;
+    padding-top: 7px;
+    margin-left: -15px;
 }
 
 .table td.text {

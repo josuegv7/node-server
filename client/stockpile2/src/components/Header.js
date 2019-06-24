@@ -2,13 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import logo from '../assets/images/logo_transparent.png';
-import {
-  Navbar,
-  Nav,
-  FormControl,
-  Button,
-  NavItem
-} from "react-bootstrap";
+import {Navbar,Nav} from "react-bootstrap";
 
 
 class Header extends Component {
@@ -46,12 +40,12 @@ class Header extends Component {
     }
     render(){
         return (
-          <Navbar bg="dark" variant="dark">
+          <Navbar bg="success" variant="dark">
             <Navbar.Brand>
               <img
                 src={logo}
-                width="70"
-                height="70"
+                width="60"
+                height="60"
                 className="d-inline-block align-top"
                 alt="StockPile"
               />

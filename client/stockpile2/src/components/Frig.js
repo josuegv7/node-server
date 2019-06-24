@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Collapse from 'react-bootstrap/Collapse';
-import Button from 'react-bootstrap/Button';
 import FrigImage from '../assets/images/004-frig.png'
 import FoodList from './foodList';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import '../assets/css/custom.css';
 
@@ -18,16 +19,22 @@ class Frig extends Component {
         const { open } = this.state;
         return (
             <div>
-                <h3>Frig</h3>
-                <Image className="frigImage" src={FrigImage} fluid onClick={() => this.setState({ open: !open })}
-                        aria-controls="example-collapse-text"
-                        aria-expanded={open}/>
-            
-            <Collapse in={this.state.open}>
-                <div id="example-collapse-text">
-                    <FoodList/>
-                </div>
-            </Collapse>
+            <Row>
+                <Col>
+                <h3>Frig:</h3>
+                </Col>
+                <Col>
+                    <Image className="frigImage" src={FrigImage} fluid onClick={() => this.setState({ open: !open })}
+                            aria-controls="example-collapse-text"
+                            aria-expanded={open}/>
+                
+                    <Collapse in={this.state.open}>
+                        <div id="example-collapse-text">
+                            <FoodList/>
+                        </div>
+                    </Collapse>
+                </Col>
+            </Row>
             </div> 
                 );
             }

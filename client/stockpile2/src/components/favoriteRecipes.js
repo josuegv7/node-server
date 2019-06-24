@@ -23,7 +23,20 @@ class FavoritRecipeList extends Component {
   displayFavoriteRecipes() {
     return _.map(this.props.favorites, favorite => {
       return (
-        <tr key={favorite.recipceID}>
+        <tr key={favorite._id}>
+          <style type="text/css">
+            {`
+                .table {
+                font-size: 12px;
+                text-align: center;  
+                };
+                .btn-danger{
+                    background-color: #D12D0A   ;
+                    color: white;
+                    font-size: 10px;
+                }
+            `}
+          </style>
           <td
             data-value={favorite.name}
           >
