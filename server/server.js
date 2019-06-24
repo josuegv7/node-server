@@ -223,7 +223,21 @@ app.delete("/stockpile/favoriterecipes/:id", authenticate, (req, res) => {
 
 
 // Server Setup:
+ if(process.env.NODE_ENV === 'production'){
+   // Express will server prioduction assets 
+   app.use(express.static('client/stockpile2/build'))
 
-app.listen(3090, () =>{
+   const path = require('path');
+   app.get('*', (req,res)=>{
+     res.sendFile(path.resolve(__dirman, 'client/stockpile2', 'build', 'index.html'));
+   });
+ }
+
+const PORT = process.env.PORT || 3090;
+
+console.log('Version: ' + process.version)
+
+
+app.listen(PORT, () =>{
     console.log("Started on Port 3090");
 });
